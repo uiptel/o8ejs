@@ -1,0 +1,16 @@
+{
+  "name": "o8ejs",
+  "version": "0.0.1",
+  "description": "simple library for observable pattern design",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "observable",
+    "subject",
+    "reactive"
+  ],
+  "author": "uiptel.com",
+  "license": "ISC"
+}
