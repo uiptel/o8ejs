@@ -1,5 +1,5 @@
 {
-  "name": "@uiptel/o8ejs",
+  "name": "@anryzhov/o8ejs",
   "version": "0.1.0",
   "description": "simple library for observable pattern design",
   "main": "./dist/cjs/index.js",
@@ -13,7 +13,7 @@
     "subject",
     "reactive"
   ],
-  "author": "ryzhov@uiptel.com",
+  "author": "anryzhov",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.26.0",
