@@ -1,6 +1,6 @@
 {
-  "name": "o8ejs",
-  "version": "0.0.1",
+  "name": "@uiptel/o8ejs",
+  "version": "0.1.0",
   "description": "simple library for observable pattern design",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
