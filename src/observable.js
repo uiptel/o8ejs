@@ -1,6 +1,4 @@
 
-import './typedefs.js';
-
 export const EMPTY_FN = () => {};
 
 /**
@@ -18,7 +16,7 @@ export class Observable {
   /**
    * @param { SubscribeFn<T> } [subscribe]
    * The function that is called when the Observable is
-   * initially subscribed to. This function is given a Observer, to which new values
+   * initially subscribed to. This function is given an Observer, to which new values
    * can be `next`ed, or an `error` method can be called to raise an error, or
    * `complete` can be called to notify of a successful completion.
    */

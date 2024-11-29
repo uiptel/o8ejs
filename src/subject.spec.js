@@ -1,5 +1,5 @@
 import { Subject } from './subject';
-import { map } from './operators/map';
+import { map } from './operators';
 
 describe('subject', () => {
 

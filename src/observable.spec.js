@@ -30,6 +30,41 @@ describe('observable', () => {
     expect(next).toHaveBeenLastCalledWith(true);
   });
 
+  it('two subscription same observer', ()  => {
+    const o = new Observable(observer => {
+      observer.next(true);
+    });
+
+    const next = jest.fn();
+    const observer = { next };
+
+    o.subscribe(observer);
+    o.subscribe(observer);
+
+    expect(next).toHaveBeenCalledTimes(2);
+    expect(next).toHaveBeenLastCalledWith(true);
+  });
+
+  it('two observer', ()  => {
+    let i = 0;
+
+    const o = new Observable(observer => {
+      observer.next(i++);
+    });
+
+    const next1 = jest.fn();
+    const next2 = jest.fn();
+
+    o.subscribe({ next: next1 });
+    o.subscribe({ next: next2 });
+
+    expect(next1).toHaveBeenCalledTimes(1);
+    expect(next1).toHaveBeenLastCalledWith(0);
+
+    expect(next2).toHaveBeenCalledTimes(1);
+    expect(next2).toHaveBeenLastCalledWith(1);
+  });
+
   it('sync flow with teardown', ()  => {
     const o = new Observable(observer => {
       observer.next(true);
