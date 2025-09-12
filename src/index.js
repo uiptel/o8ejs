@@ -1,10 +1,10 @@
-import { Observable, fromArray, timer, EMPTY } from './observable';
+import { Observable, fromArray, of, timer, EMPTY } from './observable';
 import { Subject } from './subject';
-import { map, filter, distinctUntilChanged, switchMap } from './operators/index';
+import { map, filter, distinctUntilChanged, switchMap, take } from './operators/index';
 
 
 export {
   Observable, Subject,
-  fromArray, timer, map, filter, distinctUntilChanged, switchMap,
+  fromArray, of, timer, map, filter, distinctUntilChanged, switchMap, take,
   EMPTY
 };
