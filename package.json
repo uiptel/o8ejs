@@ -10,9 +10,13 @@
     ".": {
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js",
-      "types": "./dist/typedefs.js"
+      "types": "./dist/src/typedefs.js"
     }
   },
+  "files": [
+    "dist/**/*",
+    "src/**/*"
+  ],
   "scripts": {
     "test": "jest",
     "build": "rollup -c"
@@ -34,14 +38,12 @@
     "jest": "^29.7.0",
     "rollup": "^4.27.4",
     "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-delete": "^3.0.1",
     "rollup-plugin-typescript2": "^0.36.0",
     "tslib": "^2.8.1",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.16.0"
   },
-  "files": [
-    "dist/**/*"
-  ],
   "publishConfig": {
     "access": "public"
   }
