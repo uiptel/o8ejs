@@ -5,7 +5,7 @@
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
-  "types": "./dist/typedefs.js",
+  "types": "./src/typedefs.js",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
