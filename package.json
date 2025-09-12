@@ -22,8 +22,8 @@
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
-    "publish": "npm publish --access public --verbose",
-    "postpublish": "npm info @uiptel/o8ejs"
+    "push": "npm publish --access public --verbose",
+    "postpush": "npm info @uiptel/o8ejs"
   },
   "keywords": [
     "observable",
