@@ -1,4 +1,4 @@
-import { Observable } from '../observable';
+import { Observable } from '../observable.js';
 
 
 /**
@@ -33,31 +33,30 @@ import { Observable } from '../observable';
  * @param { (value: T) => K } [keySelector]
  * Used to select a key value to be passed to the `comparator`.
  *
- * @returns { MonoTypeOperatorFunction }
+ * @returns { MonoTypeOperatorFunction<K> }
  * A function that returns an Observable that emits items from the
  * source Observable with distinct values.
  */
-export function distinctUntilChanged(comparator = defaultCompare, keySelector = identity) {
+export const distinctUntilChanged = (comparator = defaultCompare, keySelector = identity) => source => new Observable(destination => {
+  let previousKey;
+  let first = true;
 
-  return source => new Observable(destination => {
-    let previousKey;
-    let first = true;
+  return source.subscribe({
+    next: value => {
+      const currentKey = keySelector(value);
 
-    return source.subscribe({
-      next: value => {
-        const currentKey = keySelector(value);
+      if (first || !comparator(previousKey, currentKey)) {
+        first = false;
+        previousKey = currentKey;
 
-        if (first || !comparator(previousKey, currentKey)) {
-          first = false;
-          previousKey = currentKey;
-
-          // Emit the value!
-          destination.next(value);
-        }
-      },
-    });
+        // Emit the value!
+        destination.next(value);
+      }
+    },
+    complete: () => destination.complete(),
+    error: err => destination.error(err),
   });
-}
+});
 
 /**
  * @template T

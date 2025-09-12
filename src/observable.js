@@ -66,6 +66,12 @@ export class Observable {
 }
 
 /**
+ * A simple Observable that emits no items to the Observer and immediately
+ * emits a complete notification.
+ */
+export const EMPTY = new Observable(observer => observer.complete());
+
+/**
  * Synchronously emits the values of an array like and completes.
  * @template T
  * @param { T[] } array
@@ -75,6 +81,17 @@ export class Observable {
 export function fromArray(array) {
   return new Observable(observer => {
     subscribeToArray(array, observer);
+  });
+}
+
+/**
+ * Create observable from values
+ * @param { ...any } values
+ * @returns { Observable<void> }
+ */
+export function of(...values) {
+  return new Observable(observer => {
+    subscribeToArray(values, observer);
   });
 }
 

@@ -1,4 +1,5 @@
-import { Observable } from '../observable';
+import { Observable } from '../observable.js';
+
 
 /**
  * @template T
@@ -15,15 +16,17 @@ import { Observable } from '../observable';
  * A function that returns an Observable that emits items from the
  * source Observable that satisfy the specified `predicate`.
  */
-export function filter(predicate, thisArg) {
+export const filter = (predicate, thisArg) => source => new Observable(destination => {
+  let index = 0;
 
-  return source => new Observable(destination => {
-    let index = 0;
-
-    return source.subscribe({
-      next: value => {
-        predicate.call(thisArg, value, index++) && destination.next(value);
-      },
-    });
+  return source.subscribe({
+    next: value => {
+      if (predicate.call(thisArg, value, index++)) {
+        destination.next(value);
+      }
+    },
+    complete: () => destination.complete(),
+    error: err => destination.error(err),
   });
-}
+
+});

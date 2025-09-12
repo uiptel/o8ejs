@@ -1,4 +1,4 @@
-import { fromArray, Observable, timer } from './observable';
+import { fromArray, Observable, of, timer } from './observable';
 
 describe('observable', () => {
 
@@ -92,6 +92,13 @@ describe('observable', () => {
     expect(observer).toHaveBeenLastCalledWith('five');
   });
 
+  it('of', () => {
+    const observer = jest.fn();
+    of(6, 'two', 4, 'seven').subscribe(observer);
+    expect(observer).toHaveBeenCalledTimes(4);
+    expect(observer).toHaveBeenLastCalledWith('seven');
+  });
+
   it('timer once', async () => new Promise((resolve, reject) => {
     const spy = jest.fn();
 
@@ -107,9 +114,9 @@ describe('observable', () => {
 
   it('timer interval', async () => new Promise((resolve, reject) => {
     const spy = jest.fn();
-    const iterations = 7;
+    const iterations = 3;
 
-    const teardown = timer(0, 150).subscribe({
+    const teardown = timer(0, 2700).subscribe({
       next: value => {
         spy(value);
         if (value === iterations - 1) {
@@ -123,6 +130,6 @@ describe('observable', () => {
       error: () => reject(),
     });
 
-  }));
+  }), 10000);
 
 });

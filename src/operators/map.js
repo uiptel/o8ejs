@@ -1,4 +1,4 @@
-import { Observable } from '../observable';
+import { Observable } from '../observable.js';
 
 /**
  * Applies a given `project` function to each value emitted by the source
@@ -13,11 +13,12 @@ import { Observable } from '../observable';
  * applies a projection to each value and emits that projection in the output
  * Observable.
  *
- * @param { (value: any, index: number) => any } project
+ * @template N,M
+ * @param { (value: N, index: number) => M } project
  * The function to apply to each `value` emitted by the source
  * Observable. The `index` parameter is the number `i` for the i-th emission
  * that has happened since the subscription, starting from the number `0`.
- * @returns { OperatorFunction }
+ * @returns { OperatorFunction<N,M> }
  * A function that returns an Observable that emits the values from the
  * source Observable transformed by the given `project` function.
  */
@@ -29,5 +30,7 @@ export const map = project => source => new Observable(destination => {
     next: value => {
       destination.next(project(value, index++));
     },
+    complete: () => destination.complete(),
+    error: err => destination.error(err),
   });
 });
