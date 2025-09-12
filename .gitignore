@@ -7,4 +7,5 @@ build/
 .hint
 /test
 *~
+pack-test/
 uiptel-o8ejs-*.tgz

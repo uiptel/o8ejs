@@ -1,5 +1,4 @@
 import del from 'rollup-plugin-delete';
-import copy from 'rollup-plugin-copy';
 import pkg from './package.json'  with { type: 'json' };
 
 export default [
@@ -11,12 +10,6 @@ export default [
     ],
     plugins: [
       del({ targets: 'dist/*' }),
-
-      copy({
-        targets: [
-          { src: 'src', dest: 'dist' }
-        ]
-      })
     ]
   }
 ];

@@ -10,12 +10,14 @@
     ".": {
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js",
-      "types": "./dist/src/typedefs.js"
+      "types": "./src/typedefs.js"
     }
   },
   "files": [
     "dist/**/*",
-    "src/**/*"
+    "src/**/*.js",
+    "!src/**/*.spec.js",
+    "package.json"
   ],
   "scripts": {
     "test": "jest",
