@@ -1,13 +1,14 @@
-import { of, timer } from './src/observable.js';
+import { timer } from './src/observable.js';
 import { map, switchMap, take } from './src/operators/index.js';
 
 
-const o = of(3, 7).pipe(
+const o = timer(0, 520).pipe(
+  take(9),
   switchMap(
-    val => {
-      console.log('outer val =>', val);
-      return timer(0, 350).pipe(take(3),map(timerVal => `timerVal: ${timerVal}; val: ${val}`));
-    },
+    val => timer(0, 350).pipe(
+      take(2),
+      map(innerTimer => `val: ${val}; innerTimer: ${innerTimer};`)
+    )
   )
 );
 

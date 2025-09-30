@@ -19,7 +19,7 @@ describe('switchMap', () => {
     expect(observer).toHaveBeenNthCalledWith(6, 27);
   });
 
-  it('async1', (done) => {
+  it('async1', done => {
     const observer = jest.fn();
     const o = timer(470, 330).pipe(take(2), switchMap(val => of(val, val * val)));
 
@@ -40,11 +40,11 @@ describe('switchMap', () => {
     });
   });
 
-  it('async2', (done) => {
+  it('async2', done => {
     const observer = jest.fn();
     const o = of(3, 7).pipe(
       switchMap(
-        val => timer(0, 350).pipe(take(3),map(timerVal => `timerVal: ${timerVal}; val: ${val}`)),
+        val => timer(0, 350).pipe(take(3), map(timerVal => `timerVal: ${timerVal}; val: ${val}`)),
       )
     );
 
@@ -64,4 +64,25 @@ describe('switchMap', () => {
     });
   });
 
+  it('async3', done => {
+    const observer = jest.fn();
+    const o = of(9, 7, 3).pipe(
+      switchMap(
+        val => timer(160).pipe(map(timerVal => `timerVal: ${timerVal}; val: ${val}`)),
+      )
+    );
+
+    o.subscribe({
+      next: observer,
+      complete: () => {
+        try {
+          expect(observer).toHaveBeenNthCalledWith(1, 'timerVal: 0; val: 3');
+          expect(observer).toHaveBeenCalledTimes(1);
+          done();
+        } catch (error) {
+          done(error);
+        }
+      }
+    });
+  });
 });
