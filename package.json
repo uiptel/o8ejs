@@ -23,7 +23,7 @@
     "test": "jest",
     "build": "rollup -c",
     "push": "npm publish --access public --verbose",
-    "postpush": "npm info @uiptel/o8ejs"
+    "postpush": "sleep 3 && npm info @uiptel/o8ejs"
   },
   "keywords": [
     "observable",
