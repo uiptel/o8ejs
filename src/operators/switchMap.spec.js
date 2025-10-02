@@ -44,7 +44,9 @@ describe('switchMap', () => {
     const observer = jest.fn();
     const o = of(3, 7).pipe(
       switchMap(
-        val => timer(0, 350).pipe(take(3), map(timerVal => `timerVal: ${timerVal}; val: ${val}`)),
+        val => {
+          return timer(0, 350).pipe(take(3), map(timerVal => `timerVal: ${timerVal}; val: ${val}`));
+        },
       )
     );
 

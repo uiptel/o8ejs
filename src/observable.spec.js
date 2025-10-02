@@ -112,11 +112,11 @@ describe('observable', () => {
     });
   }));
 
-  it('timer interval', async () => new Promise((resolve, reject) => {
+  it('timer interval', done => {
     const spy = jest.fn();
     const iterations = 3;
 
-    const teardown = timer(0, 2700).subscribe({
+    const teardown = timer(0, 270).subscribe({
       next: value => {
         spy(value);
         if (value === iterations - 1) {
@@ -125,11 +125,11 @@ describe('observable', () => {
       },
       complete: () => {
         expect(spy).toHaveBeenCalledTimes(iterations);
-        resolve();
+        done();
       },
-      error: () => reject(),
+      error: err => done(err),
     });
 
-  }), 10000);
+  });
 
 });

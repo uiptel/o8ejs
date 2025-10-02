@@ -115,9 +115,11 @@ export function subscribeToArray(array, observer) {
  */
 export function timer(delay, interval) {
   return new Observable(observer => {
-    let count = 0, id;
+    let count = 0, id = undefined;
 
     const callback = () => {
+      id = undefined;
+
       if (interval) {
         id = setTimeout(callback, interval);
         observer.next(count);
@@ -129,8 +131,12 @@ export function timer(delay, interval) {
     };
 
     id = setTimeout(callback, delay);
+
     return () => {
-      clearTimeout(id);
+      if (id) {
+        clearTimeout(id);
+        id = undefined;
+      }
       if (interval) {
         observer.complete();
       }
