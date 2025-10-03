@@ -118,10 +118,7 @@ export function timer(delay, interval) {
     let count = 0, id = undefined;
 
     const callback = () => {
-      if (id) {
-        clearTimeout(id);
-        id = undefined;
-      }
+      id = undefined;
 
       if (interval) {
         id = setTimeout(callback, interval);
