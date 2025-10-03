@@ -99,18 +99,18 @@ describe('observable', () => {
     expect(observer).toHaveBeenLastCalledWith('seven');
   });
 
-  it('timer once', async () => new Promise((resolve, reject) => {
+  it('timer once', done => {
     const spy = jest.fn();
 
     timer(550).subscribe({
       next: value => spy(value),
       complete: () => {
         expect(spy).toHaveBeenCalledTimes(1);
-        resolve();
+        done();
       },
-      error: () => reject(),
+      error: err => done(err),
     });
-  }));
+  });
 
   it('timer interval', done => {
     const spy = jest.fn();

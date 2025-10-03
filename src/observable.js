@@ -118,7 +118,10 @@ export function timer(delay, interval) {
     let count = 0, id = undefined;
 
     const callback = () => {
-      id = undefined;
+      if (id) {
+        clearTimeout(id);
+        id = undefined;
+      }
 
       if (interval) {
         id = setTimeout(callback, interval);
@@ -127,6 +130,7 @@ export function timer(delay, interval) {
         observer.next(count);
         observer.complete();
       }
+
       count++;
     };
 
