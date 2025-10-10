@@ -1,4 +1,4 @@
-import { fromArray, Observable, of, timer } from './observable';
+import { concat, EMPTY, fromArray, Observable, of, throwError, timer } from './observable';
 
 describe('observable', () => {
 
@@ -129,6 +129,103 @@ describe('observable', () => {
       },
       error: err => done(err),
     });
+
+  });
+
+  it('concat empty', () => {
+    const observer = jest.fn();
+    const complete = jest.fn();
+    const error = jest.fn();
+
+    concat().subscribe({
+      next: observer,
+      complete: complete,
+      error: error,
+    });
+
+    expect(observer).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+    expect(complete).toHaveBeenCalledTimes(1);
+  });
+
+  it('concat simple', () => {
+    const observer = jest.fn();
+    const complete = jest.fn();
+
+    concat(of(1,2), of(3,4)).subscribe({
+      next: observer,
+      complete: complete,
+    });
+
+    expect(observer).toHaveBeenNthCalledWith(1, 1);
+    expect(observer).toHaveBeenNthCalledWith(2, 2);
+    expect(observer).toHaveBeenNthCalledWith(3, 3);
+    expect(observer).toHaveBeenNthCalledWith(4, 4);
+    expect(complete).toHaveBeenCalledTimes(1);
+  });
+
+  it('concat with error', () => {
+    const events = [];
+    const observer = {
+      next: value => events.push(value),
+      error: error => events.push(`error: ${error}`),
+      complete: () => events.push('complete'),
+    };
+
+    concat(of(1), throwError('oops'), of(2)).subscribe(observer);
+    expect(events).toEqual([1, 'error: oops']);
+  });
+
+  it('concat with empty observable', () => {
+    const events = [];
+
+    concat(EMPTY, of(1), EMPTY).subscribe({
+      next: value => events.push(value),
+      error: error => events.push(`error: ${error}`),
+      complete: () => events.push('complete'),
+    });
+
+    expect(events).toEqual([1, 'complete']);
+  });
+
+  it('concat with teardown', () => {
+    const events = [];
+    const source1 = new Observable(observer => {
+      observer.next(1);
+      observer.complete();
+      return () => events.push('teardown1');
+    });
+    const source2 = new Observable(observer => {
+      observer.next(2);
+      observer.complete();
+      return () => events.push('teardown2');
+    });
+
+    const teardown = concat(source1, source2).subscribe({
+      next: value => events.push(value),
+      error: error => events.push(`error: ${error}`),
+      complete: () => events.push('complete'),
+    });
+
+    teardown();
+
+    expect(events).toEqual([1, 2, 'complete', 'teardown2', 'teardown1']);
+
+  });
+
+  it('concat with timer', done => {
+    const events = [];
+
+    concat(of('start'), timer(250)).subscribe({
+      next: value => events.push(value),
+      complete: () => {
+        events.push('complete');
+        expect(events).toEqual(['start', 0, 'complete']);
+        done();
+      },
+      error: error => done(error),
+    });
+
 
   });
 

@@ -72,6 +72,12 @@ export class Observable {
 export const EMPTY = new Observable(observer => observer.complete());
 
 /**
+ * @param error
+ * @returns { Observable }
+ */
+export const throwError = error => new Observable(observer => observer.error(error));
+
+/**
  * Synchronously emits the values of an array like and completes.
  * @template T
  * @param { T[] } array
@@ -141,6 +147,38 @@ export function timer(delay, interval) {
       if (interval) {
         observer.complete();
       }
+    };
+  });
+}
+
+export function concat(...observables) {
+  return new Observable(observer => {
+    let index = 0;
+    const subscriptions = [];
+
+    const subscribeToNext = () => {
+      if (index === observables.length) {
+        observer.complete();
+        return EMPTY_FN;
+      }
+
+      const current$ = observables[index++];
+
+      // -- subscribe to current observable --
+      return current$.subscribe({
+        next: value => observer.next(value),
+        error: err => observer.error(err),
+        complete: () => {
+          subscriptions.push(subscribeToNext());
+        }
+      });
+    };
+
+    // -- start with first observable --
+    subscriptions.push(subscribeToNext());
+
+    return () => {
+      subscriptions.forEach(subscription => subscription());
     };
   });
 }
