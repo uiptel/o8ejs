@@ -114,6 +114,7 @@ describe('observable', () => {
 
   it('timer interval', done => {
     const spy = jest.fn();
+    const complete = jest.fn();
     const iterations = 3;
 
     const teardown = timer(0, 270).subscribe({
@@ -121,12 +122,13 @@ describe('observable', () => {
         spy(value);
         if (value === iterations - 1) {
           teardown();
+          expect(spy).toHaveBeenNthCalledWith(1, 0);
+          expect(spy).toHaveBeenNthCalledWith(2, 1);
+          expect(spy).toHaveBeenNthCalledWith(3, 2);
+          done();
         }
       },
-      complete: () => {
-        expect(spy).toHaveBeenCalledTimes(iterations);
-        done();
-      },
+      complete,
       error: err => done(err),
     });
 
