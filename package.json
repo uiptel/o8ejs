@@ -1,6 +1,6 @@
 {
   "name": "@uiptel/o8ejs",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "simple library for observable pattern design",
   "type": "module",
   "main": "./dist/cjs/index.js",
@@ -23,7 +23,7 @@
     "test": "jest",
     "build": "rollup -c",
     "push": "npm publish --access public --verbose",
-    "postpush": "sleep 3 && npm info @uiptel/o8ejs"
+    "postpush": "sleep 5 && npm info @uiptel/o8ejs"
   },
   "keywords": [
     "observable",
