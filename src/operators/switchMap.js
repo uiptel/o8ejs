@@ -1,4 +1,4 @@
-import { Observable, of } from '../observable.js';
+import { Observable } from '../observable.js';
 
 
 /**
@@ -13,7 +13,6 @@ export const switchMap = project => source => new Observable(observer => {
 
   const outerSubscription = source.subscribe({
     next: value => {
-      //console.log(`switchMap::start:value => ${value}, innerCompleted => `, innerCompleted);
 
       // Cancel previous inner observable
       if (innerSubscription && !innerCompleted) {
