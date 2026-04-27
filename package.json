@@ -1,7 +1,7 @@
 {
   "name": "@uiptel/o8ejs",
   "version": "0.1.14",
-  "description": "simple library for observable pattern design",
+  "description": "simple library for reactive programming using Observables pattern design",
   "type": "module",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
